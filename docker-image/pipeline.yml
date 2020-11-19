@@ -1,0 +1,30 @@
+---
+resource_types:
+- name: registry-image
+  type: registry-image
+  source:
+    repository: concourse/registry-image-resource
+    tag: 0.14.0
+resources:
+  - name: resource-test
+    type: git
+    source:
+      uri: https://github.com/pivotal-Jay-Wilson/test-docker-limit.git
+      branch: master
+
+jobs:
+  - name: job-hello-world
+    public: true
+    plan:
+      - get: resource-test
+      - task: check-limits
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source: 
+              repository:  alpine
+              tag: latest
+          run:
+            path: echo
+            args: [hello world]
