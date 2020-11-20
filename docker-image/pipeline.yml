@@ -1,16 +1,10 @@
 ---
-resource_types:
-- name: registry-image
-  type: registry-image
-  source:
-    repository: concourse/registry-image-resource
-    tag: 0.14.0
 resources:
   - name: resource-test
     type: git
     source:
       uri: https://github.com/pivotal-Jay-Wilson/test-docker-limit.git
-      branch: master
+      branch: main
 
 jobs:
   - name: job-hello-world
@@ -21,10 +15,25 @@ jobs:
         config:
           platform: linux
           image_resource:
-            type: registry-image
+            type: docker-image
             source: 
-              repository:  alpine
+              repository:  ubuntu
               tag: latest
+              username: ((username))
+              password: ((password))
+          inputs:
+            - name: resource-test   
+          params:                       
+            USERNAME: ((username))
+            PASSWORD: ((password))
           run:
-            path: echo
-            args: [hello world]
+            path: /bin/sh
+            args:
+            - -c
+            - |
+              env
+              apt-get -qq update
+              apt-get -qq upgrade
+              apt-get -qq install curl jq
+              echo "rate limits"
+              ./resource-test/test.sh
