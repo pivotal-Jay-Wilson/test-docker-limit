@@ -7,7 +7,7 @@ resources:
       branch: main
 
 jobs:
-  - name: job-hello-world
+  - name: job-get-limits
     public: true
     plan:
       - get: resource-test
@@ -31,7 +31,6 @@ jobs:
             args:
             - -c
             - |
-              env
               apt-get -qq update
               apt-get -qq upgrade
               apt-get -qq install curl jq
