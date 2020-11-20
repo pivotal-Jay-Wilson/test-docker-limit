@@ -1,5 +1,11 @@
 # Test Docker Hubs New Rate limit with Concourse
 
+To run you need to put a credentials.yml in the root withg yopur docker name and password.
+```
+username: <docker user>
+password: <docker password>
+```
+
 This change should help to stop pipleines from hitting the [Docker Rate limit](https://www.docker.com/increase-rate-limits)
 
 The pipelines both read from the Docker Hub api to find the rate limit of the logged in user:
